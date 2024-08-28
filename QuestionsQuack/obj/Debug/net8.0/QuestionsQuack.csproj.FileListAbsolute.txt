@@ -1,0 +1,14 @@
+I:\Pastas\Estudo e Trabalho\Programação\C#\QuestionsQuack\bin\Debug\net8.0\QuestionsQuack.exe
+I:\Pastas\Estudo e Trabalho\Programação\C#\QuestionsQuack\bin\Debug\net8.0\QuestionsQuack.deps.json
+I:\Pastas\Estudo e Trabalho\Programação\C#\QuestionsQuack\bin\Debug\net8.0\QuestionsQuack.runtimeconfig.json
+I:\Pastas\Estudo e Trabalho\Programação\C#\QuestionsQuack\bin\Debug\net8.0\QuestionsQuack.dll
+I:\Pastas\Estudo e Trabalho\Programação\C#\QuestionsQuack\bin\Debug\net8.0\QuestionsQuack.pdb
+I:\Pastas\Estudo e Trabalho\Programação\C#\QuestionsQuack\obj\Debug\net8.0\QuestionsQuack.GeneratedMSBuildEditorConfig.editorconfig
+I:\Pastas\Estudo e Trabalho\Programação\C#\QuestionsQuack\obj\Debug\net8.0\QuestionsQuack.AssemblyInfoInputs.cache
+I:\Pastas\Estudo e Trabalho\Programação\C#\QuestionsQuack\obj\Debug\net8.0\QuestionsQuack.AssemblyInfo.cs
+I:\Pastas\Estudo e Trabalho\Programação\C#\QuestionsQuack\obj\Debug\net8.0\QuestionsQuack.csproj.CoreCompileInputs.cache
+I:\Pastas\Estudo e Trabalho\Programação\C#\QuestionsQuack\obj\Debug\net8.0\QuestionsQuack.dll
+I:\Pastas\Estudo e Trabalho\Programação\C#\QuestionsQuack\obj\Debug\net8.0\refint\QuestionsQuack.dll
+I:\Pastas\Estudo e Trabalho\Programação\C#\QuestionsQuack\obj\Debug\net8.0\QuestionsQuack.pdb
+I:\Pastas\Estudo e Trabalho\Programação\C#\QuestionsQuack\obj\Debug\net8.0\QuestionsQuack.genruntimeconfig.cache
+I:\Pastas\Estudo e Trabalho\Programação\C#\QuestionsQuack\obj\Debug\net8.0\ref\QuestionsQuack.dll
