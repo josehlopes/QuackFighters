@@ -5,7 +5,15 @@ using System.IO;
 public class QuestionManager : MonoBehaviour
 {
     public string jsonFilePath = "Assets/Data/questions.json";
-    private QuestionData questionData;
+    private QuestionData _questionData;
+    private List<Question> _usedQuestions;
+    private Question _currentQuestion;
+
+    void Awake()
+    {
+        _usedQuestions = new List<Question>();
+    }
+
     public List<Question> LoadQuestions()
     {
         string fullPath = Path.GetFullPath(jsonFilePath);
@@ -14,15 +22,10 @@ public class QuestionManager : MonoBehaviour
         if (File.Exists(fullPath))
         {
             string dataAsJson = File.ReadAllText(fullPath);
-            questionData = JsonUtility.FromJson<QuestionData>(dataAsJson);
+            _questionData = JsonUtility.FromJson<QuestionData>(dataAsJson);
             Debug.Log("Arquivo JSON carregado com sucesso");
 
-            // foreach (var question in questionData.Questions)
-            // {
-            //     Debug.Log("Pergunta: " + question.Text + " - Resposta Correta: " + question.Answer);
-            // }
-
-            return questionData.Questions;
+            return _questionData.Questions;
         }
         else
         {
@@ -31,8 +34,24 @@ public class QuestionManager : MonoBehaviour
         }
     }
 
-    public Question SelectQuestion()
+    public Question GetNextQuestion()
     {
-        return questionData.Questions[Random.Range(0, questionData.Questions.Count)];
+        if (_questionData.Questions.Count > 0)
+        {
+            int randomIndex = Random.Range(0, _questionData.Questions.Count);
+            _currentQuestion = _questionData.Questions[randomIndex];
+            _questionData.Questions.RemoveAt(randomIndex);
+            _usedQuestions.Add(_currentQuestion);
+            return _currentQuestion;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public bool CheckAnswer(bool playerResponse)
+    {
+        return _currentQuestion.Answer == playerResponse;
     }
 }
