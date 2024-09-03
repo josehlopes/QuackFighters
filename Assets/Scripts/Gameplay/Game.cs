@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -15,28 +14,26 @@ public class Game : MonoBehaviour
     private UIManager _uiManager;
     private bool _gameOver;
 
-
     void Awake()
     {
-        _player1 = GameObject.Find("Player1").GetComponent<Player>();
-        _player2 = GameObject.Find("Player2").GetComponent<Player>();
-        _trueButton = GameObject.Find("TrueButton").GetComponent<ButtonManager>();
-        _falseButton = GameObject.Find("FalseButton").GetComponent<ButtonManager>();
-        _questionManager = GameObject.Find("Questions").GetComponent<QuestionManager>();
-        _coin = GameObject.Find("Coin").GetComponent<Coin>();
-        _uiManager = new UIManager(GameObject.Find("Statement").GetComponent<TextMeshProUGUI>(), GameObject.Find("TurnManager").GetComponent<TextMeshProUGUI>());
-        _turnManager = GameObject.Find("TurnManager").GetComponent<TurnManager>();
-        _gameOver = false;
+        InitializeComponents();
     }
 
     void Start()
     {
-        _player1.Name = "Player 1";
-        _player2.Name = "Player 2";
+        StartGame();
+    }
+
+    private void StartGame()
+    {
+        _player1.Name = "Erik";
+        _player2.Name = "Ícaro";
         _coin.FlipCoin();
         _turnManager.CurrentTurn = _coin.CoinValue != 0;
+        _turnManager.LastTurn = !_turnManager.CurrentTurn;
         _questionManager.LoadQuestions();
         NextQuestion();
+        HandleUIInformation();
     }
 
     void Update()
@@ -54,7 +51,34 @@ public class Game : MonoBehaviour
     void FixedUpdate()
     {
         _uiManager.UpdateTimer(_turnManager.TurnTimer);
+        HandleUIInformation();
     }
+
+    #region Private Methods
+    private void InitializeComponents()
+    {
+        _player1 = GameObject.Find("Player1").GetComponent<Player>();
+        _player2 = GameObject.Find("Player2").GetComponent<Player>();
+        _trueButton = GameObject.Find("TrueButton").GetComponent<ButtonManager>();
+        _falseButton = GameObject.Find("FalseButton").GetComponent<ButtonManager>();
+        _questionManager = GameObject.Find("Questions").GetComponent<QuestionManager>();
+        _coin = GameObject.Find("Coin").GetComponent<Coin>();
+        _turnManager = GameObject.Find("TurnManager").GetComponent<TurnManager>();
+
+        TextMeshProUGUI statementText = GameObject.Find("Statement").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI turnManagerText = GameObject.Find("TurnManager").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI currentPlayerTurnText = GameObject.Find("CurrentTurn").GetComponent<TextMeshProUGUI>();
+
+        _uiManager = new UIManager(statementText, turnManagerText, currentPlayerTurnText);
+
+        _gameOver = false;
+
+        if (_player1 == null || _player2 == null || _trueButton == null || _falseButton == null || _questionManager == null || _coin == null || _turnManager == null || _uiManager == null)
+        {
+            Debug.LogError("Um ou mais componentes não foram encontrados. Certifique-se de que todos os componentes necessários estão na cena e possuem os nomes e tags corretos.");
+        }
+    }
+
     public void NextQuestion()
     {
         _uiManager.UpdateStatement(_questionManager.GetNextQuestion());
@@ -80,7 +104,17 @@ public class Game : MonoBehaviour
             bool isCorrect = _questionManager.CheckAnswer(answer.Value);
             HandleAttackOrDefense(isCorrect);
             StartCoroutine(WaitAndLoadNextQuestion(1f));
-            _turnManager.ResetTimer();
+            _turnManager.SwapTurn();
+            HandleUIInformation();
+        }
+    }
+
+    private void HandleUIInformation()
+    {
+        if (_turnManager.LastTurn != _turnManager.CurrentTurn)
+        {
+            _turnManager.LastTurn = _turnManager.CurrentTurn;
+            _uiManager.UpdateCurrentPlayerTurnText(_turnManager.CurrentTurn ? _player1.Name : _player2.Name);
         }
     }
 
@@ -94,22 +128,20 @@ public class Game : MonoBehaviour
             }
             else
             {
-                _player2.Attack(_player1);
+                _player2.Defense(_player1);
             }
         }
         else
         {
             if (_turnManager.CurrentTurn)
             {
-                _player2.Defense(_player1);
+                _player2.Attack(_player1);
             }
             else
             {
                 _player1.Defense(_player2);
             }
         }
-
-        _turnManager.SwapTurn();
         CheckWinCondition();
     }
 
@@ -137,4 +169,5 @@ public class Game : MonoBehaviour
     {
         Debug.Log("Fim do jogo. Parabéns ao vencedor!");
     }
+    #endregion
 }

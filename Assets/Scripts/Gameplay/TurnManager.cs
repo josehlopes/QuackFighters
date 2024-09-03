@@ -8,6 +8,9 @@ public class TurnManager : MonoBehaviour
     private int _turnTimer;
     private int _maxTurnTimer = 10;
 
+    private bool _lastTurn;
+
+
     public bool CurrentTurn
     {
         get => _currentTurn;
@@ -24,6 +27,12 @@ public class TurnManager : MonoBehaviour
     {
         get => _turnTimer;
         set => _turnTimer = value;
+    }
+
+    public bool LastTurn
+    {
+        get => _lastTurn;
+        set => _lastTurn = value;
     }
 
     public int MaxTurnTimer
@@ -43,6 +52,7 @@ public class TurnManager : MonoBehaviour
         StartCoroutine(TimerCoroutine());
     }
 
+    #region Private Methods
     private IEnumerator TimerCoroutine()
     {
         while (true)
@@ -60,7 +70,6 @@ public class TurnManager : MonoBehaviour
         }
         else
         {
-            _turnTimer = 0;
             SwapTurn();
         }
     }
@@ -73,6 +82,8 @@ public class TurnManager : MonoBehaviour
     {
         _currentTurn = !_currentTurn;
         _turnCount++;
+        ResetTimer();
         Debug.Log("Turno: " + _turnCount);
     }
+    #endregion
 }

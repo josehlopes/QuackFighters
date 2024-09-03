@@ -50,6 +50,20 @@ public class QuestionManager : MonoBehaviour
         }
     }
 
+    public Question GetCurrentQuestion()
+    {
+        return _currentQuestion;
+    }
+
+    public List<Question> GetUsedQuestions()
+    {
+        return _usedQuestions;
+    }
+
+    public void ResetUsedQuestions()
+    {
+        _usedQuestions = new List<Question>();
+    }
     public bool CheckAnswer(bool playerResponse)
     {
         return _currentQuestion.Answer == playerResponse;
